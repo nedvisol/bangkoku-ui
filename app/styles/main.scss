@@ -1,0 +1,9 @@
+$font-size-base: 12px;
+$padding-base-vertical: 3px;
+$padding-base-horizonal: 6px;
+@import "_bootstrap.scss";
+$color: #000;
+
+body {
+  color: $color;
+}
