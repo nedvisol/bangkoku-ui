@@ -1,9 +1,14 @@
 require.config({
   deps: [
-    'main'
+    'main','jquery','underscore','bootstrap'
   ],
   shim: {
-
+    'backbone' : {
+      deps: ['underscore','jquery']
+    },
+    'bootstrap' : {
+      deps: ['jquery']
+    }
   },
   paths: {
     backbone: '../bower_components/backbone/backbone',

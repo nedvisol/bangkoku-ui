@@ -9,7 +9,7 @@ var bowerRequireJS = require('bower-requirejs');
 
 var config = { 
     sassPath: 'app/styles',
-     bowerDir: 'app/bower_components' 
+ bowerDir: 'app/bower_components' 
 }
 
 gulp.task('test', function() {
@@ -40,7 +40,7 @@ gulp.task('server', function() {
 
 gulp.task('jst', function() {
     gulp.src('app/templates/*.html')
-        .pipe(jade())
+        //.pipe(jade())
         .pipe(jstConcat('jst.js', {
             renameKeys: ['^.*app/templates/(.*).html$', '$1']
         }))
