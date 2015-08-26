@@ -3,17 +3,19 @@ define([
     'backbone',
     'backbone.marionette',
     'views/sample',
-    'routers/appRouter'
+    'routers/appRouter',
+    'views/navigationBarView'
   ],
-  function(Backbone, Marionette, SampleView, AppRouter) {
+  function(Backbone, Marionette, SampleView, AppRouter, NavigationBarView) {
     var bkkApp = new Backbone.Marionette.Application();
 
-    /*MyApp.addRegions({
-      mainRegion: "#mainContent"
-    });*/
+    bkkApp.addRegions({
+      mainRegion: "#mainContent",
+      navigationRegion: "#navigationContent"
+    });
 
     bkkApp.root = function() {
-      
+
     };
 
     bkkApp.addInitializer(function(options){
@@ -26,6 +28,9 @@ define([
       var sampleView = new SampleView({model: mdl});
       MyApp.mainRegion.show(sampleView);
       */
+
+      var navBar = new NavigationBarView();
+      bkkApp.navigationRegion.show(navBar);
 
       Backbone.history.start();
       bkkApp.router.navigate('home', { trigger: true});
