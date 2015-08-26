@@ -24,8 +24,8 @@ var config = { 
 
 
 // ---- compile ----
-gulp.task('jst', ['build:clean'],function() {
-    gulp.src('app/templates/*.html')
+gulp.task('jst',function() {
+    return gulp.src('app/templates/*.html')
         //.pipe(jade())
         .pipe(jstConcat('jst.js', {
             renameKeys: ['^.*app/templates/(.*).html$', '$1']
@@ -33,7 +33,7 @@ gulp.task('jst', ['build:clean'],function() {
         .pipe(gulp.dest('.tmp/scripts'))
 })
 
-gulp.task('sass', ['build:clean'],function() { 
+gulp.task('sass', function() { 
     return gulp.src('./app/styles/**/*.scss') 
         .pipe(sass({ 
                 outputStyle: 'compressed',
@@ -112,7 +112,7 @@ gulp.task('open:dist', ['sass', 'jst', 'server:dist'], function() {
 });
 
 
-gulp.task('serve', ['sass', 'sass:watch', 'jst', 'jst:watch', 'server', 'open']);
+gulp.task('serve', ['compile','sass:watch', 'jst:watch', 'server', 'open']);
 gulp.task('serve:dist', ['build','server:dist', 'open:dist']);
 
 // ---- build ---

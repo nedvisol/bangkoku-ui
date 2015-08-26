@@ -5,6 +5,7 @@
     "backbone": "~1.2.2",
     "backbone.marionette": "marionette#~2.4.2",
     "bootstrap": "~3.3.5",
+    "bootstrap-sass": "~3.3.5",
     "requirejs": "~2.1.20",
     "underscore": "~1.8.3"
   },
