@@ -4,9 +4,10 @@ define([
     'backbone.marionette',
     'views/sample',
     'routers/appRouter',
-    'views/navigationBarView'
+    'views/navigationBarView',
+    'views/detailView'
   ],
-  function(Backbone, Marionette, SampleView, AppRouter, NavigationBarView) {
+  function(Backbone, Marionette, SampleView, AppRouter, NavigationBarView, DetailView) {
     var bkkApp = new Backbone.Marionette.Application();
 
     bkkApp.addRegions({
@@ -15,7 +16,8 @@ define([
     });
 
     bkkApp.root = function() {
-
+      var dv = new DetailView();
+      bkkApp.mainRegion.show(dv);
     };
 
     bkkApp.addInitializer(function(options){

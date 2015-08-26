@@ -34,6 +34,10 @@ gulp.task('jst',function() {
 })
 
 gulp.task('sass', function() { 
+    //copy bootstrap fonts
+    gulp.src('app/bower_components/bootstrap-sass/assets/fonts/**')
+    .pipe(gulp.dest('.tmp/fonts'));
+
     return gulp.src('./app/styles/**/*.scss') 
         .pipe(sass({ 
                 outputStyle: 'compressed',
@@ -46,7 +50,7 @@ gulp.task('sass', function() { 
 gulp.task('bowerReqJs', function(done) {
     var options = {
         baseUrl: 'app/scripts',
-        config: 'app/scripts/requireConfig.js',
+        config: 'app/scripts/main.js',
         transitive: true,
         exclude: ['requirejs']
     };
