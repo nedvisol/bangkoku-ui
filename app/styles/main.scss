@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700);
 /* Font override */
 $font-size-base: 12px;
 $font-family-sans-serif: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -16,10 +16,14 @@ $theme-dark-color: #104271;
 $theme-light-color: #4C80B1;
 
 @import "_bootstrap.scss";
-$color: #000;
+
 
 body {
-  color: $color;
+  font-weight: 400;
+}
+
+h1,h2,h3,h4,h5 {
+  font-weight: bold;
 }
 
 #mainContent {
@@ -34,6 +38,12 @@ body {
       box-shadow: none;
     }
 
+    .panel-heading {
+      h3,a {
+        line-height: 20px;
+      }
+    }
+
     a.panel-action, a.panel-action:hover {
       color: $theme-dark-color;
       text-decoration: none;
@@ -44,12 +54,17 @@ body {
       border: none;
       background: none;
       border-bottom: 1px solid $theme-dark-color;
+      padding: 3px 15px;
     }
 
     a.panel-action {
-      padding: 5px;
-      transition: opacity 1s;
+      padding: 0px 5px;
+      transition: opacity 1s;      
     }
+    a.action-icon {
+      font-size: 15px;
+    }
+
     a.action-icon-invisible {
       opacity: 0;
     }
@@ -57,7 +72,7 @@ body {
 
     .detail-form {
       color: $theme-dark-color;
-      font-weight: bold;
+      font-weight: 400;
 
 
       .form-group {
