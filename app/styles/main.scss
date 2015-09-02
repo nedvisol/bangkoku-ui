@@ -1,7 +1,7 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700);
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700,300);
 /* Font override */
 $font-size-base: 12px;
-$font-family-sans-serif: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-sans-serif: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 $padding-base-vertical: 3px;
 $padding-base-horizonal: 6px;
@@ -59,7 +59,7 @@ h1,h2,h3,h4,h5 {
 
     a.panel-action {
       padding: 0px 5px;
-      transition: opacity 1s;      
+      transition: opacity 1s;
     }
     a.action-icon {
       font-size: 15px;
