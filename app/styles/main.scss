@@ -33,75 +33,46 @@ h1,h2,h3,h4,h5 {
   }
 
   .detail-view {
-    .panel-default {
-      border: none;
-      box-shadow: none;
-    }
-
-    .panel-heading {
-      h3,a {
-        line-height: 20px;
-      }
-    }
-
-    a.panel-action, a.panel-action:hover {
+    h1,h2,h3,h4 {
       color: $theme-dark-color;
-      text-decoration: none;
-      cursor: pointer;
+      border-bottom: 1px solid #ddd;
+      margin: 0px;
+      padding: 10px 0px;
     }
-
-    div.panel-heading {
+    li.list-group-item:first-child {
+      border-top: none;
+    }
+    .list-group-item {
       border: none;
-      background: none;
-      border-bottom: 1px solid $theme-dark-color;
-      padding: 3px 15px;
-    }
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      clear: both;
 
-    a.panel-action {
-      padding: 0px 5px;
-      transition: opacity 1s;
-    }
-    a.action-icon {
-      font-size: 15px;
-    }
-
-    a.action-icon-invisible {
-      opacity: 0;
-    }
-
-
-    .detail-form {
-      color: $theme-dark-color;
-      font-weight: 400;
-
-
-      .form-group {
-        margin-bottom: 5px;
+      .list-label, .list-control {
+        padding: 3px 0px;
+        margin: 0px;
+        border: none;
       }
-
-      label.control-label {
-        padding-right: 5px;
+      .list-label {
+        width: 30%;
       }
-      div > .form-control {
-        margin-left: -15px;
-      }
-      input.form-control {
-        border: 1px solid rgba(0,0,0,0);
-        box-shadow: none;
+      .list-control {
+        width: 69%;
+        padding: 3px;
         transition: background-color 0.5s;
       }
-      input.form-control:hover {
-        border: 1px solid $theme-light-color;
-      }
-      input.form-control:focus {
-        background-color: #DCEEFF;
-        border: 1px solid rgba(0,0,0,0);
-      }
-      .form-control.bk-updated {
-        background-color: #DCEEFF;
+      .list-control:focus {
+        border: 0px;
+        background-color: #D0E4FF;
+        outline: none;
       }
 
+
     }
+    .list-group-item.header {
+      font-weight: 700;
+    }
+
   }
 }
 
