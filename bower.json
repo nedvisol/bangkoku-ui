@@ -1,14 +1,27 @@
 {
-  "name": "mybackbone",
-  "version": "0.0.0",
+  "name": "backbone-template",
+  "version": "0.0.1",
+  "authors": [
+    "Ned <nedvisol@gmail.com>"
+  ],
+  "description": "awesome template",
+  "main": "index.html",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
   "dependencies": {
-    "backbone": "~1.2.2",
-    "backbone.marionette": "marionette#~2.4.2",
-    "backbone.radio": "~1.0.1",
-    "bootstrap": "~3.3.5",
-    "bootstrap-sass": "~3.3.5",
-    "requirejs": "~2.1.20",
-    "underscore": "~1.8.3"
-  },
-  "devDependencies": {}
+    "backbone": "~1.2.3",
+    "backbone.marionette": "marionette#~2.4.3",
+    "backbone.radio": "~1.0.2",
+    "foundation": "~5.5.2",
+    "requirejs": "~2.1.20"
+  }
 }

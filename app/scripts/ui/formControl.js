@@ -1,9 +1,7 @@
 'use strict'
 define([
-        'jquery',
-        'backbone.radio'
     ],
-    function($) {
+    function() {
         $.fn.formControl = function(action, options){
           if (!action) {
             action = 'init';

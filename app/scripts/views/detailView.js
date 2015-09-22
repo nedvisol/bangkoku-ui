@@ -1,11 +1,9 @@
 'use strict'
 define([
-        'backbone',
         'jst',
         'ui/formControl',
-        'backbone.radio'
     ],
-    function(Backbone, Marionette, $, Radio) {
+    function(_jst, formControl) {
 
         var DetailView = Backbone.View.extend({
             tagName: "div",

@@ -1,176 +1,152 @@
 var gulp = require('gulp');
 var gls = require('gulp-live-server');
-var mocha = require('gulp-mocha');
-var open = require('gulp-open');
-var sass = require('gulp-sass');
-var jade = require('gulp-jade'),
-    jstConcat = require('gulp-jst-concat');
-var bowerRequireJS = require('bower-requirejs');
-var amdOptimize = require('amd-optimize');
-var uglify = require('gulp-uglify');
-var concat = require('gulp-concat');
+var wiredep = require('wiredep').stream;
 var del = require('del');
-var symlink = require('gulp-sym');
 var minifyHtml = require('gulp-minify-html');
 var minifyCss = require('gulp-minify-css');
-var usemin = require('gulp-usemin');
-var requirejsOptimize = require('gulp-requirejs-optimize');
-var replace = require('gulp-replace');
+var sass = require('gulp-sass');
+var uglify = require('gulp-uglify');
+var jstConcat = require('gulp-jst-concat');
+var concat = require('gulp-concat');
+var open = require('gulp-open');
+var symlink = require('gulp-sym');
 
-var config = { 
-    sassPath: 'app/styles',
- bowerDir: 'app/bower_components' 
+
+var config = {
+  bowerDep: 'app/bower_components',
+  buildDir: '.www',
+  minify: false,
+  sassIncludePaths: [ './app/styles'
+  ,'app/bower_components/foundation/scss'
+  ] ,
+
+  wiredepSrc:  './app/index.html',
+  scssSrc: './app/styles/**/*.scss',
+  jstSrc: 'app/templates/*.html',
+  jsSrc: 'app/scripts/**/*.js'
+};
+
+//------- clean task: delete build directory, start from scratch! ------
+
+var cleaned = false;
+
+gulp.task('clean', function(done){
+  //only clean once - don't clean again when updating files during dev
+  if (!cleaned) {
+    cleaned = true;
+    return del([config.buildDir], done);
+  } else {
+    done();
+    return true;
+  }
+});
+
+
+//------- prepare tasks: copy static files that do not need to be modified/processed ------
+function _js(file) {
+  if (!file) {
+    file = config.jsSrc;
+  }
+  var stream = gulp.src(config.jsSrc);
+  if (config.minify) {
+    stream = stream.pipe(concat('main.js'))
+    .pipe(uglify())
+  }
+
+  return stream.pipe(gulp.dest(config.buildDir+'/scripts'));
+}
+gulp.task('prepare:fonts', ['clean'], function(){
+  return gulp.src('app/bower_components/foundation-icon-fonts/foundation-icons.woff')
+  .pipe(gulp.dest(config.buildDir+'/styles'));
+});
+gulp.task('prepare:js', ['clean'], function(){
+  return _js(false);
+});
+gulp.task('prepare:bower-sym', ['clean'], function(){
+  return gulp.src('app/bower_components')
+    .pipe(symlink(config.buildDir+'/bower_components'));
+
+});
+
+gulp.task('prepare',['prepare:fonts','prepare:js', 'prepare:bower-sym']);
+//----- compile tasks: modifying and processing source files ------
+function _wiredep(mf) {
+  var stream = gulp.src(config.wiredepSrc)
+              .pipe(wiredep({}));
+  //if mf is true, call minifyHTML
+  stream = mf?stream.pipe(minifyHtml()):stream;
+  return stream
+        .pipe(gulp.dest('./.www/'));
 }
 
+function _sass(file, mf) {
+  //default for a fresh compile
+  file = file?file:config.scssSrc;
 
-// ---- compile ----
-gulp.task('jst',function() {
-    return gulp.src('app/templates/*.html')
-        //.pipe(jade())
-        .pipe(jstConcat('jst.js', {
-            renameKeys: ['^.*app/templates/(.*).html$', '$1']
-        }))
-        .pipe(gulp.dest('.tmp/scripts'))
+  var stream = gulp.src(file) 
+      .pipe(sass({ 
+              //outputStyle: 'compressed',
+              includePaths: config.sassIncludePaths
+          }) 
+          .on('error', sass.logError));
+  stream = (mf)?stream.pipe(minifyCss()):stream;
+  return stream
+      .pipe(gulp.dest(config.buildDir+'/styles'));
+}
+function _jst(mf) {
+  var stream = gulp.src(config.jstSrc)
+      //.pipe(jade())
+      .pipe(jstConcat('jst.js', {
+          renameKeys: ['^.*app/templates/(.*).html$', '$1']
+      }));
+  stream = (mf)?stream.pipe(uglify()):stream;
+
+  return stream
+        .pipe(gulp.dest(config.buildDir+'/scripts'));
+}
+
+gulp.task('compile:wiredep', ['clean'], function(){
+  return _wiredep(config.minify);
+});
+gulp.task('compile:sass', ['clean'], function() { 
+    //copy bootstrap fonts
+    return _sass(false, config.minify);
+});
+gulp.task('compile:jst', ['clean'], function() {
+    return _jst(false, config.minify);
 })
 
-gulp.task('sass', function() { 
-    //copy bootstrap fonts
-    gulp.src('app/bower_components/bootstrap-sass/assets/fonts/**')
-    .pipe(gulp.dest('.tmp/fonts'));
-
-    return gulp.src('./app/styles/**/*.scss') 
-        .pipe(sass({ 
-                outputStyle: 'compressed',
-                includePaths: [ './app/styles', 'app/bower_components/bootstrap-sass/assets/stylesheets' ] 
-            }) 
-            .on('error', sass.logError))
-        .pipe(gulp.dest('./.tmp/styles'));
+gulp.task('compile', ['prepare','compile:wiredep', 'compile:sass', 'compile:jst']);
+//------ build tasks -------
+gulp.task('build', ['compile']);
+gulp.task('build:dist', function(){
+  config.minify = true;
+  return gulp.run('build');
 });
 
-gulp.task('bowerReqJs', function(done) {
-    var options = {
-        baseUrl: 'app/scripts',
-        config: 'app/scripts/main.js',
-        transitive: true,
-        exclude: ['requirejs']
-    };
-
-    bowerRequireJS(options, function(rjsConfigFromBower) {
-        done();
-    });
-});
-
-gulp.task('jst:watch', function() {
-    return gulp.watch('./app/templates/*.html', ['jst']);
-});
-
-gulp.task('sass:watch', function() {
-    return gulp.watch('./app/styles/**/*.scss', ['sass']);
-});
-
-gulp. task('compile', ['jst', 'sass', 'bowerReqJs']);
-
-// ---- tests ----
-
-gulp.task('test', function() {
-    return gulp.src('tests/*.js', {
-            read: false
-        })
-        // gulp-mocha needs filepaths so you can't have any plugins before it
-        .pipe(mocha({
-            reporter: 'nyan'
-        }));
-});
-
-
-//---- server ----
-
-gulp.task('server', function() {
-    var server = gls.static(['app', '.tmp'], 3000);
+//------- development server ------
+gulp.task('server', ['build'], function() {
+    var server = gls.static(['.www'], 3000);
     server.start();
 
     //use gulp.watch to trigger server actions(notify, start or stop)
-    gulp.watch(['.tmp/**/*.css', 'app/**/*.html', 'app/**/*.js'], function(file) {
+    gulp.watch(['.www/**/*.*'], function(file) {
         server.notify.apply(server, [file]);
     });
 });
-
-gulp.task('server:dist', ['build'], function() {
-    var server = gls.static(['dist'], 3000);
-    server.start();
-
-});
-
-gulp.task('open', ['sass', 'jst', 'server'], function() {
+gulp.task('open', ['server'], function() {
     gulp.src(__filename)
         .pipe(open({
             uri: 'http://localhost:3000/'
         }));
 });
+gulp.task('watch', ['build'],  function(){
 
-gulp.task('open:dist', ['sass', 'jst', 'server:dist'], function() {
-    gulp.src(__filename)
-        .pipe(open({
-            uri: 'http://localhost:3000/'
-        }));
+  gulp.watch(config.wiredepSrc, function(file){ console.log('HTML: '+file);return _wiredep(false); });
+  gulp.watch(config.scssSrc, function(file){ console.log('SCSS: '+file);return _sass(file,false); });
+  gulp.watch(config.jstSrc, function(file){ console.log('JST: '+file);return _jst(false); });
+  return gulp.watch(config.jsSrc, function(file){ console.log('JS: '+file); return _js(file); });
+
 });
-
-
-gulp.task('serve', ['compile','sass:watch', 'jst:watch', 'server', 'open']);
-gulp.task('serve:dist', ['build','server:dist', 'open:dist']);
-
-// ---- build ---
-
-gulp.task('build:clean', function(cb){
-  del(['.tmp', 'dist'], cb);
-});
-
-gulp.task('build:prepare', ['compile', 'build:clean'],  function(){
-  gulp.src('.tmp/scripts/**/*.js')
-  .pipe(gulp.dest('.tmp/build/scripts'));
-
-  gulp.src('.tmp/styles/**')
-  .pipe(gulp.dest('.tmp/build/styles'));
-
-  gulp.src('app/bower_components')
-    .pipe(symlink('.tmp/build/bower_components'));
-
-  return gulp.src(['app/**/*.*', '!**/bower_components/**'])
-  .pipe(gulp.dest('.tmp/build'));
-});
-
-gulp.task('build:scripts', ['build:prepare'],  function () {
-
-
-
-  /*return gulp.src(['.tmp/build/scripts/ * * / *.js', ])
-    // Traces all modules and outputs them in the correct order.
-    .pipe(amdOptimize('main', {
-        baseUrl: '.tmp/build/scripts',
-        configFile : "app/scripts/requireConfig.js"
-      }))
-    .pipe(concat('main.js'))
-    //.pipe(uglify())
-    .pipe(gulp.dest('dist/scripts'));*/
-
-    return gulp.src('.tmp/build/scripts/main.js')
-          .pipe(requirejsOptimize({
-            mainConfigFile: '.tmp/build/scripts/main.js',
-            optimize: 'none'
-          }))
-          .pipe(gulp.dest('dist/scripts'));
-});
-
-gulp.task('build:usemin',['build:scripts'], function () {
-  return gulp.src('.tmp/build/index.html')
-      .pipe(replace(/<!-- dist:([^\s]*) -->/g, '<script type="text/javascript" src="$1"></script>'))
-      .pipe(usemin({
-        css: [minifyCss(), 'concat'],
-        html: [minifyHtml({empty: true, quotes: true, loose: true})],
-        //js: [uglify(), 'concat']
-        js: [ 'concat']
-      }))
-      .pipe(gulp.dest('dist/'));
-});
-
-gulp.task('build', ['build:clean','compile', 'build:prepare','build:scripts', 'build:usemin' ]);
+//------------
+gulp.task('default', ['open', 'watch']);

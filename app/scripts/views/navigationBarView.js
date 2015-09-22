@@ -1,9 +1,8 @@
 'use strict'
 define([
-        'backbone',
         'jst'
     ],
-    function(Backbone, Marionette) {
+    function(_jst) {
 
         var NavigationBarView = Backbone.View.extend({
             tagName: "div",

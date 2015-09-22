@@ -7,6 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css(.tmp) styles/main.css -->
+        <!-- bower:css -->
+        <!-- endbower -->
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
     </head>
@@ -22,10 +24,11 @@
 
           </div>
         </div>
-
+        <!-- we are not using requirejs to load dependencies -->
+      <!-- bower:js -->
+      <!-- endbower -->
       <!-- build:js scripts/req.js -->
         <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
         <!-- endbuild -->
-        <!-- dist:scripts/main.js -->
 </body>
 </html>

@@ -1,10 +1,8 @@
 'use strict'
 define([
-        'backbone',
-        'backbone.marionette'
     ],
-    function(Backbone, Marionette) {
-        var AppRouter = Marionette.AppRouter.extend({
+    function() {
+        var AppRouter = Backbone.Marionette.AppRouter.extend({
             _app: null,
             initialize: function(options) {
               this._app = options.app;

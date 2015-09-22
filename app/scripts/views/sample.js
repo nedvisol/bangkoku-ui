@@ -1,10 +1,8 @@
 'use strict'
 define([
-        'backbone',
-        'backbone.marionette',
         'jst'
     ],
-    function(Backbone, Marionette) {
+    function(_jst) {
 
         var SampleView = Backbone.View.extend({
             tagName: "div",

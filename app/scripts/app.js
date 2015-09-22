@@ -1,13 +1,11 @@
 'use strict'
 define([
-    'backbone',
-    'backbone.marionette',
     'views/sample',
     'routers/appRouter',
     'views/navigationBarView',
     'views/detailView'
   ],
-  function(Backbone, Marionette, SampleView, AppRouter, NavigationBarView, DetailView) {
+  function(SampleView, AppRouter, NavigationBarView, DetailView) {
     var bkkApp = new Backbone.Marionette.Application();
 
     bkkApp.addRegions({

@@ -1,5 +1,6 @@
 'use strict';
 
+/*
 require.config({
   deps: [
 
@@ -33,17 +34,15 @@ require.config({
   ]
 });
 
-
+*/
 require([
-    'app',
-    'jquery',
-    'bootstrap',
+    'app'
     /*
      * Since facebook access is restricted not working in local
      * When publishing uncomment it
      */
     /*,'components/fb'*/
   ],
-  function(App, $, bootstrap) {
+  function(App) {
     App.start();
   });
