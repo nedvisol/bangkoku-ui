@@ -1,55 +1,28 @@
-<div class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Bangkoku Platform</a>
-        </div>
+<nav class="top-bar" data-topbar role="navigation">
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="#">My Site</a></h1>
+    </li>
+     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Customer <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li>
-                <form class="navbar-form navbar-left" role="search">
-                    <div class="form-group">
-                        <input type="text" class="form-control search-box" placeholder="Search here...">
-                    </div>
-                </form>
-              </li>
-              <li>
-                  <a href="#" class="nav-icon" role="button"><span class="glyphicon glyphicon-envelope nav-icon" aria-hidden="true"></span><span class="badge nav-icon-badge">2</span></a>
-              </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle nav-icon" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell nav-icon" aria-hidden="true"></span><span class="badge nav-icon-badge">10</span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">My Profile</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Logout</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ned Visol <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">My Profile</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container-fluid -->
-    </nav>
-</div>
+  <section class="top-bar-section">
+    <!-- Right Nav Section -->
+    <ul class="right">
+      <li class="active"><a href="#">Right Button Active</a></li>
+      <li class="has-dropdown">
+        <a href="#">Right Button Dropdown</a>
+        <ul class="dropdown">
+          <li><a href="#">First link in dropdown</a></li>
+          <li class="active"><a href="#">Active link in dropdown</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <!-- Left Nav Section -->
+    <ul class="left">
+      <li><a href="#">Left Nav Button</a></li>
+    </ul>
+  </section>
+</nav>

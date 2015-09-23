@@ -18,6 +18,7 @@ var config = {
   minify: false,
   sassIncludePaths: [ './app/styles'
   ,'app/bower_components/foundation/scss'
+  ,'app/bower_components/foundation-icon-fonts'
   ] ,
 
   wiredepSrc:  './app/index.html',
@@ -142,10 +143,10 @@ gulp.task('open', ['server'], function() {
 });
 gulp.task('watch', ['build'],  function(){
 
-  gulp.watch(config.wiredepSrc, function(file){ console.log('HTML: '+file);return _wiredep(false); });
-  gulp.watch(config.scssSrc, function(file){ console.log('SCSS: '+file);return _sass(file,false); });
-  gulp.watch(config.jstSrc, function(file){ console.log('JST: '+file);return _jst(false); });
-  return gulp.watch(config.jsSrc, function(file){ console.log('JS: '+file); return _js(file); });
+  gulp.watch(config.wiredepSrc, function(evt){ var file = evt.path; console.log('HTML: '+file);return _wiredep(false); });
+  gulp.watch(config.scssSrc, function(evt){ var file = evt.path; console.log('SCSS: '+file);return _sass(file,false); });
+  gulp.watch(config.jstSrc, function(evt){ var file = evt.path; console.log('JST: '+file);return _jst(false); });
+  return gulp.watch(config.jsSrc, function(evt){ var file = evt.path; console.log('JS: '+file); return _js(file); });
 
 });
 //------------
