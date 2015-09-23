@@ -20,6 +20,7 @@ define([
             render: function(){
               this.$el.html(this.template());
               this.$el.find('.detail-form input.form-control').formControl('init', { viewId: this.id });
+              setTimeout(function(){Foundation.libs.equalizer.reflow();}, 500);              
             },
         });
 

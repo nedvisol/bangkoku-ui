@@ -35,6 +35,8 @@ require.config({
 });
 
 */
+$(document).foundation();
+
 require([
     'app'
     /*
